@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@800&display=swap" rel="stylesheet">
+<title>Democracy Demonstration</title>
+<style>
+    html { background: #000; --text: #9ff; --shout: #f66; color: var(--text); }
+    div { display: none; font: bold 75vmin/1 Assistant, sans-serif; overflow: visible; user-select: none; }
+    div.active.textLoop { display: block; white-space: nowrap; }
+    span { display: inline-block; transition: all .5s ease; }
+    #israel.active { display: flex; justify-content: center; color: #0038b8; background: #fff; padding: .1em 0; line-height: .9; animation: flag 10s infinite; }
+    #israel span { border: 0 solid; border-width: .1em 0; width: 100vw; text-align: center; }
+    #peace.active { display: flex; justify-content: center; color: #0038b8; background: #fff; padding: .1em 0; line-height: .9; animation: flag 10s infinite; }
+    #peace span { border: 0 solid; border-width: .1em 0; width: 100vw; text-align: center; }
+    #boo > span { transition: all 1.2s .2s ease; }
+    .red { color: var(--shout); scale: 1.05 1.2; transition: all .5s ease; }
+    #forAll span { font: bold 30vmin/.9 Assistant, sans-serif; text-align: center; }
+    #pride {
+        background: linear-gradient(red 0 16.5%, orange 0 33%, yellow 0 49.5%, green 0 65%, blue 0 81.5%, indigo 0 98%);
+        height: 100vh;
+    }
+    #trans {
+        background: linear-gradient(#00d2ff 20%, #ffa6b9 0 40%, white 0 60%, #ffa6b9 0 80%, #00d2ff 0);
+        height: 100vh;
+     }
+    .hearts.active { display: flex; justify-content: center; }
+    .hearts.active::before { animation: hearts 6s infinite; content: ''; }
+    @keyframes hearts {
+          0% { content: '🧡'; scale: 1; opacity: .95; }
+         16% { content: '🧡'; scale: .8; opacity: .8; }
+         18% { content: '💜'; scale: 1; opacity: .95; }
+         19% { content: '💜'; scale: .9; }
+         20% { content: '💙'; scale: 1; opacity: .95; }
+         36% { content: '💙'; scale: .8; opacity: .8; }
+         38% { content: '💚'; scale: 1; opacity: .95; }
+         39% { content: '💚'; scale: .9; }
+         40% { content: '💛'; scale: 1; opacity: .95; }
+         56% { content: '💛'; scale: .8; opacity: .8; }
+         58% { content: '🧡'; scale: 1; opacity: .95; }
+         59% { content: '🧡'; scale: .9; }
+         60% { content: '💜'; scale: 1; opacity: .95; }
+         76% { content: '💜'; scale: .8; opacity: .8; }
+         78% { content: '💙'; scale: 1; opacity: .95; }
+         79% { content: '💙'; scale: .9; }
+         80% { content: '💚'; scale: 1; opacity: .95; }
+         96% { content: '💚'; scale: .8; opacity: .8; }
+         98% { content: '💛'; scale: 1; opacity: .95; }
+         99% { content: '💛'; scale: .9; }
+        100% { content: '🧡'; scale: 1; opacity: .95; }
+    }
+    @keyframes flag {
+          0% { transform: perspective(9vmin) rotate3d(1, -4, 0, 1deg); }
+         50% { transform: perspective(9vmin) rotate3d(2,  3, 0, 1deg); }
+        100% { transform: perspective(9vmin) rotate3d(1, -4, 0, 1deg); }
+    }
+</style>
+<script>
+    var timer;
+    function show(id) {
+        if (timer) clearInterval(timer);
+        const div = document.getElementById(id);
+        document.querySelector('.active')?.classList.remove('active');
+        div.classList.add('active');
+        return div;
+    }
+    function textLoop(id, ms) {
+        const s = show(id).querySelectorAll('span');
+        if (s.length === 0) return;
+        let i = 1;
+        timer = setInterval(() => {
+            s[i - 1].classList.remove('red');
+            if (i === 1) {
+                s[s.length - 1].classList.remove('red');
+                s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
+            }
+            s[i].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+            s[i].classList.add('red');
+            if (++i === s.length) {
+                s[0].classList.add('red');
+                i = 1;
+            }
+        }, ms);
+    }
+    addEventListener('click', e => {
+        const x = ~~(e.clientX * 3 / innerWidth), y = ~~(e.clientY * 4 / innerHeight);
+        switch (x) {
+            case 0: return textLoop(...[['democracy', 750], ['shame', 650], ['boo', 350], ['forAll', 2000]][y]);
+            case 2: return show(['israel', 'peace', 'pride', 'trans'][y]);
+            default: 
+                if (document.fullscreenElement)
+                    document.exitFullscreen();
+                else
+                    document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+        }
+        
+    });
+</script>
+<body>
+    <div id="israel"><span>✡</span></div>
+    <div id="peace"><span>☮</span></div>
+    <div id="pride" class="hearts">&nbsp;</div>
+    <div id="trans" class="hearts">&nbsp;</div>
+    <div id="democracy" class="textLoop">
+        דמוקר<span>טיה!</span>
+        <span>ד</span><span>מו</span><span>קר</span><span>טיה!</span>
+        דמוקרטיה
+    </div>
+    <div id="shame" class="textLoop">
+        בושה!💩<span>בו</span><span>שה!</span>💩<span>בו</span>שה!
+    </div>
+    <div id="boo" class="textLoop">
+        בווווווז!
+        <span>ב</span><span>ו</span><span>ו</span><span>ו</span><span>ו</span><span>ו</span><span>ו</span><span>ז</span><span>!</span>
+        <span>ב</span>ווווווז
+    </div>
+    <div id="forAll" class="textLoop">
+        =
+        <span>דמוקרטיה<br/>לכולם!</span>
+        =
+        <span>ערבי<br/>יהודי</span>
+        =
+        <span>חרדי<br/>דתי<br/>חילוני</span>
+        =
+        <span>אישה<br/>גבר<br/>אחר</span>
+        =
+        <span>ימין<br/>מרכז<br/>שמאל</span>
+        =
+        <span>טראנס<br/>סיס</span>
+        =
+        <span>الديمقراطية<br/>للجميع</span>
+        =
+        <span>דמוקרטיה<br/>לכולם!</span>
+        =
+    </div>
+</body>
+</html>
