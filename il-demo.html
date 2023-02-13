@@ -2,30 +2,59 @@
 <html dir="rtl" lang="he">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@800&display=swap" rel="stylesheet">
-<title>Democracy Demonstration</title>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;800&display=swap" rel="stylesheet">
+<title>דמוקרטיה בישראל</title>
 <style>
-    html { background: #000; --text: #9ff; --shout: #f66; color: var(--text); }
-    div { display: none; font: bold 75vmin/1 Assistant, sans-serif; overflow: visible; user-select: none; }
+    html, body > * { position: fixed; inset: 0; }
+    html { background: #000; --text: #9ff; --shout: #fcc; color: var(--text); }
+    nav { font: 200 2rem Assistant, sans-serif; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1em; opacity: 0; }
+    nav.active { opacity: 1; }
+    nav a { text-align: center; padding: 1em; background: #3333; }
+    div { display: none; font: bold 75vmin/1 Assistant, sans-serif; overflow: hidden; user-select: none; pointer-events: none; }
     div.active.textLoop { display: block; white-space: nowrap; }
-    span { display: inline-block; transition: all .5s ease; }
-    #israel.active { display: flex; justify-content: center; color: #0038b8; background: #fff; padding: .1em 0; line-height: .9; animation: flag 10s infinite; }
-    #israel span { border: 0 solid; border-width: .1em 0; width: 100vw; text-align: center; }
-    #peace.active { display: flex; justify-content: center; color: #0038b8; background: #fff; padding: .1em 0; line-height: .9; animation: flag 10s infinite; }
-    #peace span { border: 0 solid; border-width: .1em 0; width: 100vw; text-align: center; }
-    #boo > span { transition: all 1.2s .2s ease; }
-    .red { color: var(--shout); scale: 1.05 1.2; transition: all .5s ease; }
-    #forAll span { font: bold 30vmin/.9 Assistant, sans-serif; text-align: center; }
+    div.active > b { display: inline-block; transition: all .5s ease; }
+    div.active > i { display: inline-block; transition: all 1.2s .2s ease; }
+    #israel {
+        background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='24'><path d='M1,9H11L6,18ZM1,15H11L6,6Z' fill='none' stroke='%230038b8' stroke-width='1'/></svg>")
+        no-repeat center,
+        linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 16%, #fcfcfc 0 84%, #0038b8 0 93%, #fff 0 98%, #000 0);
+        background-size: contain, cover;
+    }
+    #peace {
+        background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><path d='M8,4V12M5,11L8,8L11,11' fill='none' stroke='%230038b8' stroke-width='1'/></svg>")
+        no-repeat center,
+        radial-gradient(circle, #fff 0 22%, #0038b8 0 28%, #0000 0),
+        linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 16%, #fcfcfc 0 84%, #0038b8 0 93%, #fff 0 98%, #000 0);
+        background-size: contain, cover;
+    }
+    div.active > .shout { color: var(--shout); text-shadow: 1px 1px red; scale: 1.05 1.1; transition: all .5s ease; }
+    #forAll b { font: bold 30vmin/.9 Assistant, sans-serif; text-align: center; }
     #pride {
-        background: linear-gradient(red 0 16.5%, orange 0 33%, yellow 0 49.5%, green 0 65%, blue 0 81.5%, indigo 0 98%);
-        height: 100vh;
+        background:
+        linear-gradient(black 2%, red 0 18%, orange 0 34%, yellow 0 50%, green 0 66%, blue 0 82%, indigo 0 98%, black 0);
     }
     #trans {
-        background: linear-gradient(#00d2ff 20%, #ffa6b9 0 40%, white 0 60%, #ffa6b9 0 80%, #00d2ff 0);
-        height: 100vh;
-     }
-    .hearts.active { display: flex; justify-content: center; }
-    .hearts.active::before { animation: hearts 6s infinite; content: ''; }
+        background: linear-gradient(black 2%, #00d2ff 0 21.2%, #ffa6b9 0 40.4%, white 0 59.6%, #ffa6b9 0 78.8%, #00d2ff 0 98%, black 0);
+    }
+    /* .flag{box-shadow: -1vh 0 #000 inset;} */
+    .flag.active::before {
+        position: fixed; content: ''; background: inherit; animation: flag2 2s ease-in infinite;
+        --inset: -1%; --shad: 110%;
+    }
+    .flag.active::after {
+        position: fixed; content: ''; background: inherit; animation: flag2 2s 1s ease-in infinite;
+        --inset: 1%; --shad: 95%;
+    }
+    @keyframes flag2 {
+          0% { inset: 0; filter:brightness(100%); clip-path: polygon(0 0, 5% 0, 10% 100%, 0 100%); }
+         50% { inset: var(--inset); filter:brightness(var(--shad)); }
+        100% { inset: 0; filter:brightness(100%); clip-path: polygon(120% 0, 150% 0, 120% 100%, 100% 100%); }
+    }
+    .flag.active { display: flex; justify-content: center; animation: flag 11s linear infinite; }
+    .flag > * { z-index: 1;}
+    .active > .hearts::after { display: block; animation: hearts 6s infinite; content: ''; }
     @keyframes hearts {
           0% { content: '🧡'; scale: 1; opacity: .95; }
          16% { content: '🧡'; scale: .8; opacity: .8; }
@@ -54,83 +83,100 @@
          50% { transform: perspective(9vmin) rotate3d(2,  3, 0, 1deg); }
         100% { transform: perspective(9vmin) rotate3d(1, -4, 0, 1deg); }
     }
+    #shame { font-size: 40vw; text-align: center; line-height: .8; }
+    /* #shame { font-stretch: condensed; letter-spacing: -10%; font-size: 66vmin/2; } */
+    /* #boo span { position: fixed; inset: auto 0 0 50%; display: block; padding: auto; transition: inset .5s linear; font-size: 50vmin; } */
+    /* #shame:is([data-state="1"], [data-state="3"]) span { inset: auto 70% 0 0; } */
 </style>
 <script>
     var timer;
     function show(id) {
         if (timer) clearInterval(timer);
+        if (!document.fullscreenElement)
+            document.documentElement.requestFullscreen({ navigationUI: 'hide' });
         const div = document.getElementById(id);
         document.querySelector('.active')?.classList.remove('active');
+        for (let x of document.querySelectorAll('.shout')) x.classList.remove('shout');
         div.classList.add('active');
         return div;
     }
     function textLoop(id, ms) {
-        const s = show(id).querySelectorAll('span');
-        if (s.length === 0) return;
+        const div = show(id), s = div.querySelectorAll('b, i');
+        s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
+        s[0].classList.add('shout');
+        div.dataset.state = 0
         let i = 1;
         timer = setInterval(() => {
-            s[i - 1].classList.remove('red');
+            s[i - 1].classList.remove('shout');
+            div.dataset.state = i
             if (i === 1) {
-                s[s.length - 1].classList.remove('red');
+                s[s.length - 1].classList.remove('shout');
                 s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
             }
             s[i].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
-            s[i].classList.add('red');
+            s[i].classList.add('shout');
             if (++i === s.length) {
-                s[0].classList.add('red');
+                s[0].classList.add('shout');
                 i = 1;
             }
         }, ms);
     }
-    addEventListener('click', e => {
-        const x = ~~(e.clientX * 3 / innerWidth), y = ~~(e.clientY * 4 / innerHeight);
-        switch (x) {
-            case 0: return textLoop(...[['democracy', 750], ['shame', 650], ['boo', 350], ['forAll', 2000]][y]);
-            case 2: return show(['israel', 'peace', 'pride', 'trans'][y]);
-            default: 
-                if (document.fullscreenElement)
-                    document.exitFullscreen();
-                else
-                    document.documentElement.requestFullscreen({ navigationUI: 'hide' });
-        }
-        
-    });
+    function menu() {
+        if (timer) clearInterval(timer);
+        if (document.fullscreenElement) document.exitFullscreen();
+        document.querySelector('.active')?.classList.remove('active');
+        document.querySelector('nav').classList.add('active');
+    }
 </script>
 <body>
-    <div id="israel"><span>✡</span></div>
-    <div id="peace"><span>☮</span></div>
-    <div id="pride" class="hearts">&nbsp;</div>
-    <div id="trans" class="hearts">&nbsp;</div>
+    <nav class="active">
+        <a style="grid-column: 1   ; grid-row: 4" onclick="textLoop('democracy', 750)">ד־מו־קר־טיה!</a>
+        <a style="grid-column: 1   ; grid-row: 3" onclick="textLoop('shame', 350)">בושה!</a>
+        <a style="grid-column: 1   ; grid-row: 2" onclick="textLoop('boo', 350)">בווווווז!</a>
+        <a style="grid-column: 1   ; grid-row: 1" onclick="textLoop('forAll', 2200)">דמוקרטיה לכולם</a>
+        <a style="grid-column: 2/-2; grid-row: 1/5" onclick="menu()">חזרה לתפריט</a>
+        <a style="grid-column:   -2; grid-row: 4" onclick="show('israel')">✡ דגל ישראל</a>
+        <a style="grid-column:   -2; grid-row: 3" onclick="show('peace')">☮ שלום</a>
+        <a style="grid-column:   -2; grid-row: 2" onclick="show('pride')">🏳️‍🌈 דגל הגאווה</a>
+        <a style="grid-column:   -2; grid-row: 1" onclick="show('trans')">🏳️‍⚧️ דגל טרנס</a>
+    </nav>
+    <div id="israel" class="flag">&nbsp;</div>
+    <div id="peace" class="flag">&nbsp;</div>
+    <div id="pride" class="flag"><span class="hearts"></span></div>
+    <div id="trans" class="flag"><span class="hearts"></span></div>
     <div id="democracy" class="textLoop">
-        דמוקר<span>טיה!</span>
-        <span>ד</span><span>מו</span><span>קר</span><span>טיה!</span>
-        דמוקרטיה
+        דמוקרטיה!
+        <b>ד</b><b>מו</b><b>קר</b><b>טיה!</b>
+        <b>ד</b>מוקרטיה
     </div>
     <div id="shame" class="textLoop">
-        בושה!💩<span>בו</span><span>שה!</span>💩<span>בו</span>שה!
+        בושה!<br/>
+        <b>&ZeroWidthSpace;</b><b>בו</b><b>שה!</b><br/>
+        <b>&ZeroWidthSpace;</b>בושה!<br/>בושה!
     </div>
     <div id="boo" class="textLoop">
-        בווווווז!
-        <span>ב</span><span>ו</span><span>ו</span><span>ו</span><span>ו</span><span>ו</span><span>ו</span><span>ז</span><span>!</span>
-        <span>ב</span>ווווווז
+        <span>💩</span>
+        <em>בווווווז!</em>
+        <i>ב</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ז</i><i>!</i>
+        <i>ב</i><em>ווווווז</em>
     </div>
     <div id="forAll" class="textLoop">
         =
-        <span>דמוקרטיה<br/>לכולם!</span>
+        <b>דמוקרטיה<br/>לכולם!</b>
         =
-        <span>ערבי<br/>יהודי</span>
+        <b>ימין<br/>מרכז<br/>שמאל</b>
         =
-        <span>חרדי<br/>דתי<br/>חילוני</span>
+        <b>ערבים<br/>ויהודים</b>
         =
-        <span>אישה<br/>גבר<br/>אחר</span>
+        <b>נשים,<br/>גברים<br/>ואחרים</b>
         =
-        <span>ימין<br/>מרכז<br/>שמאל</span>
+        <b>להטב״ק<br/>ובני בריתם</b>
         =
-        <span>טראנס<br/>סיס</span>
+        <b>מאמינים<br/>ומאמינים שלא</b>
         =
-        <span>الديمقراطية<br/>للجميع</span>
+        <b>الديمقراطية<br/>للجميع</b>
         =
-        <span>דמוקרטיה<br/>לכולם!</span>
+        <b>דמוקרטיה<br/>לכולם!</b>
         =
     </div>
 </body>
