@@ -16,17 +16,17 @@
     div.active > i { display: inline-block; transition: all 1.2s .2s ease; }
     #israel {
         background:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='24'><path d='M1,9H11L6,18ZM1,15H11L6,6Z' fill='none' stroke='%230038b8' stroke-width='1'/></svg>")
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='26'><path d='M1,10H11L6,19ZM1,16H11L6,7Z' fill='none' stroke='%230038b8' stroke-width='1'/></svg>")
         no-repeat center,
-        linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 16%, #fcfcfc 0 84%, #0038b8 0 93%, #fff 0 98%, #000 0);
+        linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 20%, #fcfcfc 0 80%, #0038b8 0 93%, #fff 0 98%, #000 0);
         background-size: contain, cover;
     }
     #peace {
         background:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><path d='M8,4V12M5,11L8,8L11,11' fill='none' stroke='%230038b8' stroke-width='1'/></svg>")
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='18'><path d='M8,5V13M5,12L8,9L11,12' fill='none' stroke='%230038b8' stroke-width='1'/></svg>")
         no-repeat center,
-        radial-gradient(circle, #fff 0 22%, #0038b8 0 28%, #0000 0),
-        linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 16%, #fcfcfc 0 84%, #0038b8 0 93%, #fff 0 98%, #000 0);
+        radial-gradient(circle, #fff 0 20%, #0038b8 0 26%, #0000 0),
+        linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 20%, #fcfcfc 0 80%, #0038b8 0 93%, #fff 0 98%, #000 0);
         background-size: contain, cover;
     }
     div.active > .shout { color: var(--shout); text-shadow: 1px 1px red; scale: 1.05 1.1; transition: all .5s ease; }
@@ -84,14 +84,35 @@
         100% { transform: perspective(9vmin) rotate3d(1, -4, 0, 1deg); }
     }
     #shame { font-size: 40vw; text-align: center; line-height: .8; }
-    /* #shame { font-stretch: condensed; letter-spacing: -10%; font-size: 66vmin/2; } */
-    /* #boo span { position: fixed; inset: auto 0 0 50%; display: block; padding: auto; transition: inset .5s linear; font-size: 50vmin; } */
-    /* #shame:is([data-state="1"], [data-state="3"]) span { inset: auto 70% 0 0; } */
+    #boo { font-size: 32vw; text-align: center; line-height: .8; }
+    #boo span {
+        position: absolute; top: 100%; left: 101%; font: 900 24vw monospace; color: #0000; --lr: 2s; --alt: alternate-reverse; --top: 33%;
+        animation: updown 1.5s ease-in-out infinite alternate, leftright var(--lr) linear infinite var(--alt), lights 3s step-end infinite alternate;
+    }
+    @keyframes updown { from { top: 100% } to { top: var(--top) } }
+    @keyframes leftright { from { left: 0 } to { left: 86% } }
+    @keyframes lights {
+          0% { color: red; }
+         14% { color: #fff; }
+         29% { color: #000; }
+         31% { color: red; }
+         45% { color: #ff0; }
+         57% { color: #000; }
+         62% { color: red; }
+         76% { color: #f90; }
+         88% { color: #fff; }
+         93% { color: #f0c; }
+        100% { color: #000; }
+    }
 </style>
 <script>
     var timer;
-    function show(id) {
+    function stop() {
         if (timer) clearInterval(timer);
+        timer = null;
+    }
+    function show(id) {
+        stop();
         if (!document.fullscreenElement)
             document.documentElement.requestFullscreen({ navigationUI: 'hide' });
         const div = document.getElementById(id);
@@ -104,11 +125,11 @@
         const div = show(id), s = div.querySelectorAll('b, i');
         s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
         s[0].classList.add('shout');
-        div.dataset.state = 0
+        // div.dataset.state = 0
         let i = 1;
         timer = setInterval(() => {
             s[i - 1].classList.remove('shout');
-            div.dataset.state = i
+            // div.dataset.state = i
             if (i === 1) {
                 s[s.length - 1].classList.remove('shout');
                 s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
@@ -122,7 +143,7 @@
         }, ms);
     }
     function menu() {
-        if (timer) clearInterval(timer);
+        stop();
         if (document.fullscreenElement) document.exitFullscreen();
         document.querySelector('.active')?.classList.remove('active');
         document.querySelector('nav').classList.add('active');
@@ -155,10 +176,14 @@
         <b>&ZeroWidthSpace;</b>בושה!<br/>בושה!
     </div>
     <div id="boo" class="textLoop">
-        <span>💩</span>
-        <em>בווווווז!</em>
+        <span style="animation-delay:    0ms; --lr: 1.7s;">!</span>
+        <span style="animation-delay:  333ms; --lr: 1.8s; --alt: alternate;">@</span>
+        <span style="animation-delay:  667ms; --lr: 1.9s;">#</span>
+        <span style="animation-delay: 1000ms; --lr: 2s; --alt: alternate;">%</span>
+        <span style="animation-delay: 1333ms; --lr: 2.1s;">&</span>
+        <span style="animation-delay: 1667ms; --lr: 2.2s; --alt: alternate;">*</span>
+        <span style="animation-delay: 2000ms; --lr: 2.5s; font-size: 30vw; --top: 10%; text-shadow:1px 1px #ffc;">💩</span>
         <i>ב</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ז</i><i>!</i>
-        <i>ב</i><em>ווווווז</em>
     </div>
     <div id="forAll" class="textLoop">
         =
