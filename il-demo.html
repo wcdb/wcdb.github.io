@@ -2,16 +2,17 @@
 <html dir="rtl" lang="he">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;800&family=IBM+Plex+Sans+Arabic:wght@700&display=swap" rel="stylesheet">
 <title>דמוקרטיה בישראל</title>
 <style>
-    html, body > * { position: fixed; inset: 0; }
-    html { background: #000; --text: #9ff; --shout: #fcc; color: var(--text); }
+    html { height: 100dvh;}
+    body > * { position: fixed; inset: 0; }
+    html { background: #000; --text: #cff; --shout: #fee; --echo: #f00; color: var(--text); }
     nav { font: 200 2rem Assistant, sans-serif; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1em; opacity: 0; }
     nav.active { opacity: 1; }
     nav a { text-align: center; padding: 1em; background: #3333; }
     div { display: none; font: bold 75vmin/1 Assistant, sans-serif; overflow: hidden; user-select: none; pointer-events: none; }
-    div.active.textLoop { display: block; white-space: nowrap; }
+    div.active.textLoop { display: block; color: var(--text); white-space: nowrap; }
     div.active > b { display: inline-block; transition: all .5s ease; }
     div.active > i { display: inline-block; transition: all 1.2s .2s ease; }
     #israel {
@@ -29,8 +30,8 @@
         linear-gradient(#000 2%, #fff 0 7%, #0038b8 0 20%, #fcfcfc 0 80%, #0038b8 0 93%, #fff 0 98%, #000 0);
         background-size: contain, cover;
     }
-    div.active > .shout { color: var(--shout); text-shadow: 1px 1px red; scale: 1.05 1.1; transition: all .5s ease; }
-    #forAll b { font: bold 30vmin/.9 Assistant, sans-serif; text-align: center; }
+    div.active > .shout { color: var(--shout); text-shadow: 1vh 1vh var(--echo); scale: 1.05 1.1; transition: all .5s ease; }
+    #forAll :is(b, span) { display: inline-block; font: bold 30vmin/1.1 Assistant, "IBM Plex Sans Arabic", sans-serif; text-align: center; }
     #pride {
         background:
         linear-gradient(black 2%, red 0 18%, orange 0 34%, yellow 0 50%, green 0 66%, blue 0 82%, indigo 0 98%, black 0);
@@ -38,19 +39,18 @@
     #trans {
         background: linear-gradient(black 2%, #00d2ff 0 21.2%, #ffa6b9 0 40.4%, white 0 59.6%, #ffa6b9 0 78.8%, #00d2ff 0 98%, black 0);
     }
-    /* .flag{box-shadow: -1vh 0 #000 inset;} */
     .flag.active::before {
-        position: fixed; content: ''; background: inherit; animation: flag2 2s ease-in infinite;
+        position: fixed; content: ''; background: inherit; animation: flagRipple 1.2s ease-in infinite;
         --inset: -1%; --shad: 110%;
     }
     .flag.active::after {
-        position: fixed; content: ''; background: inherit; animation: flag2 2s 1s ease-in infinite;
+        position: fixed; content: ''; background: inherit; animation: flagRipple 1.2s .6s ease-in infinite;
         --inset: 1%; --shad: 95%;
     }
-    @keyframes flag2 {
-          0% { inset: 0; filter:brightness(100%); clip-path: polygon(0 0, 5% 0, 10% 100%, 0 100%); }
+    @keyframes flagRipple {
+          0% { inset: 0; filter:brightness(100%); clip-path: polygon(0 0, 25% 0, 30% 100%, 0 100%); }
          50% { inset: var(--inset); filter:brightness(var(--shad)); }
-        100% { inset: 0; filter:brightness(100%); clip-path: polygon(120% 0, 150% 0, 120% 100%, 100% 100%); }
+        100% { inset: 0; filter:brightness(100%); clip-path: polygon(120% 0, 150% 0, 130% 100%, 100% 100%); }
     }
     .flag.active { display: flex; justify-content: center; animation: flag 11s linear infinite; }
     .flag > * { z-index: 1;}
@@ -84,7 +84,7 @@
         100% { transform: perspective(9vmin) rotate3d(1, -4, 0, 1deg); }
     }
     #shame { font-size: 40vw; text-align: center; line-height: .8; }
-    #boo { font-size: 32vw; text-align: center; line-height: .8; }
+    #boo { font-size: 32vw; text-align: center; line-height: .8; --text: #f93; --shout: #f33; --echo: #fff; }
     #boo span {
         position: absolute; top: 100%; left: 101%; font: 900 24vw monospace; color: #0000; --lr: 2s; --alt: alternate-reverse; --top: 33%;
         animation: updown 1.5s ease-in-out infinite alternate, leftright var(--lr) linear infinite var(--alt), lights 3s step-end infinite alternate;
@@ -92,18 +92,25 @@
     @keyframes updown { from { top: 100% } to { top: var(--top) } }
     @keyframes leftright { from { left: 0 } to { left: 86% } }
     @keyframes lights {
-          0% { color: red; }
-         14% { color: #fff; }
-         29% { color: #000; }
-         31% { color: red; }
-         45% { color: #ff0; }
-         57% { color: #000; }
-         62% { color: red; }
-         76% { color: #f90; }
-         88% { color: #fff; }
-         93% { color: #f0c; }
-        100% { color: #000; }
+        0% { color: red; }
+        14% { color: #fff; }
+        29% { color: #0000; }
+        31% { color: red; }
+        45% { color: #ff0; }
+        57% { color: #0000; }
+        62% { color: red; }
+        76% { color: #f90; }
+        88% { color: #fff; }
+        93% { color: #f0c; }
+        100% { color: #0000; }
     }
+    #purim { font: 900 min(28vh, 21vw)/1.1 serif; text-align: center; padding: 32vh 0; }
+    @media (orientation: landscape) {
+        #purim { letter-spacing: .1em; }
+    }
+    #purim span { background-color: #0038b8; position: fixed; z-index: 9; }
+    #purim .top { inset: 0 0 67%; }
+    #purim .bottom { inset: 67% 0 0; }
 </style>
 <script>
     var timer;
@@ -124,7 +131,10 @@
     function textLoop(id, ms) {
         const div = show(id), s = div.querySelectorAll('b, i');
         s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
-        s[0].classList.add('shout');
+        setTimeout(() => {
+            s[0].classList.add('shout');
+            s[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
+        }, 1);
         // div.dataset.state = 0
         let i = 1;
         timer = setInterval(() => {
@@ -155,7 +165,8 @@
         <a style="grid-column: 1   ; grid-row: 3" onclick="textLoop('shame', 350)">בושה!</a>
         <a style="grid-column: 1   ; grid-row: 2" onclick="textLoop('boo', 350)">בווווווז!</a>
         <a style="grid-column: 1   ; grid-row: 1" onclick="textLoop('forAll', 2200)">דמוקרטיה לכולם</a>
-        <a style="grid-column: 2/-2; grid-row: 1/5" onclick="menu()">חזרה לתפריט</a>
+        <a style="grid-column: 2   ; grid-row: 4" onclick="textLoop('purim', 1100)">פורים</a>
+        <a style="grid-column: 2/-2; grid-row: 1/4" onclick="menu()">חזרה לתפריט</a>
         <a style="grid-column:   -2; grid-row: 4" onclick="show('israel')">✡ דגל ישראל</a>
         <a style="grid-column:   -2; grid-row: 3" onclick="show('peace')">☮ שלום</a>
         <a style="grid-column:   -2; grid-row: 2" onclick="show('pride')">🏳️‍🌈 דגל הגאווה</a>
@@ -182,27 +193,41 @@
         <span style="animation-delay: 1000ms; --lr: 2s; --alt: alternate;">%</span>
         <span style="animation-delay: 1333ms; --lr: 2.1s;">&</span>
         <span style="animation-delay: 1667ms; --lr: 2.2s; --alt: alternate;">*</span>
-        <span style="animation-delay: 2000ms; --lr: 2.5s; font-size: 30vw; --top: 10%; text-shadow:1px 1px #ffc;">💩</span>
-        <i>ב</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ו</i><i>ז</i><i>!</i>
+        <span style="animation-delay: 2000ms; --lr: 2.5s;">💩</span>
+        <i>בּ</i><i>וּ</i><i>וּ</i><i>וּ</i><i>וּ</i><i>וּ</i><i>וּ</i><i>ז</i><i>!</i>
     </div>
     <div id="forAll" class="textLoop">
-        =
+        <span>..............</span>
+        <span>ديمقراطية<br/>للجميع!</span>
         <b>דמוקרטיה<br/>לכולם!</b>
-        =
-        <b>ימין<br/>מרכז<br/>שמאל</b>
-        =
-        <b>ערבים<br/>ויהודים</b>
-        =
-        <b>נשים,<br/>גברים<br/>ואחרים</b>
-        =
-        <b>להטב״ק<br/>ובני בריתם</b>
-        =
-        <b>מאמינים<br/>ומאמינים שלא</b>
-        =
-        <b>الديمقراطية<br/>للجميع</b>
-        =
+        <b>ديمقراطية<br/>للجميع!</b>
         <b>דמוקרטיה<br/>לכולם!</b>
-        =
+        <span>ديمقراطية<br/>للجميع!</span>
+    </div>
+    <div id="purim" class="textLoop">
+        <span class="top">וְהָעִיר</span>
+        <span class="bottom">נָבוֹכָה</span>
+        ......................
+        הֶרְצְלִיָּה
+        😵‍💫 <b>שׁוּשָׁן</b>
+        😱 <b>כְּפַר סָבָא</b>
+        😟 <b>יְרוּשָׁלַיִם</b>
+        😖 <b>תֵּל אָבִיב</b>
+        😩 <b>רַעֲנַנָּה</b>
+        😞 <b>חֵיפָה</b>
+        😧 <b>אַשְׁדּוֹד</b>
+        😵 <b>חֲדֵרָה</b>
+        ☹️ <b>עֲרָד</b>
+        😱 <b>אַשְׁקְלוֹן</b>
+        😟 <b>פֶּתַח תִּקְוָה</b>
+        😖 <b>נְתַנְיָה</b>
+        😩 <b>עֲפוּלָה</b>
+        😞 <b>נַהֲרִיָּה</b>
+        😧 <b>מוֹדִיעִין</b>
+        😵 <b>בְּאֵר שֶׁבַע</b>
+        ☹️ <b>הֶרְצְלִיָּה</b>
+        😵‍💫 <b>שׁוּשָׁן</b>
+        😱 כְּפַר סָבָא
     </div>
 </body>
 </html>
